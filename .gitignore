@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/WeatherWise.Api/bin/Debug/net9.0
+/src/WeatherWise.Api/obj
+/src/WeatherWise.Application/obj
+/src/WeatherWise.Domain/bin/Debug/net9.0
+/src/WeatherWise.Domain/obj
+/src/WeatherWise.Infrastructure/bin/Debug/net9.0
+/src/WeatherWise.Infrastructure/obj
+/src/WeatherWise.Application/bin/Debug/net9.0
+/.vs/WeatherWiseApi/FileContentIndex
+/.vs/WeatherWiseApi
