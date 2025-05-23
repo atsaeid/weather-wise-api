@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  weatherwise-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5083:80"
+      - "5084:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=YourSecurePassword
+    volumes:
+      - ${USERPROFILE}/.aspnet/https:/https/
+      - weatherwise-data:/app/Data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  weatherwise-data: 

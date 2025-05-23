@@ -387,4 +387,69 @@ Response Format:
   "dailyForecasts": [...],
   "isFavorite": false
 }
+```
+
+## Docker Deployment
+
+### Prerequisites
+- Docker Desktop
+- .NET SDK 9.0 (for development)
+- SSL certificate for HTTPS
+
+### Development Setup with Docker
+
+1. Generate development SSL certificate (Windows PowerShell):
+```powershell
+dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\aspnetapp.pfx -p YourSecurePassword
+dotnet dev-certs https --trust
+```
+
+2. Build and run with Docker Compose:
+```bash
+docker-compose build
+docker-compose up -d
+```
+
+3. Stop the containers:
+```bash
+docker-compose down
+```
+
+### Environment Variables
+The following environment variables can be configured:
+- `ASPNETCORE_ENVIRONMENT`: Set to 'Development' or 'Production'
+- `ASPNETCORE_URLS`: Configure HTTP/HTTPS endpoints
+- `ASPNETCORE_Kestrel__Certificates__Default__Password`: SSL certificate password
+
+### Volumes
+- `weatherwise-data`: Persists SQLite database and other data
+- SSL certificates: Mounted from host machine's .aspnet/https directory
+
+### Health Checks
+The API includes a health check endpoint at `/health` that monitors:
+- Database connectivity
+- Overall API status
+
+### Production Deployment
+1. Update the SSL certificate password in docker-compose.yml
+2. Ensure proper SSL certificate is in place
+3. Run with production settings:
+```bash
+docker-compose -f docker-compose.yml up -d
+```
+
+### Troubleshooting
+1. Check container logs:
+```bash
+docker-compose logs weatherwise-api
+```
+
+2. Access the container:
+```bash
+docker-compose exec weatherwise-api sh
+```
+
+3. Check health status:
+```bash
+curl http://localhost:5083/health
 ``` 
